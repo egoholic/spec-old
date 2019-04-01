@@ -18,10 +18,6 @@ func (r *Root) GetNode() *node.Node {
 	return r.node
 }
 
-func (r *Root) Name() string {
-	return r.node.Name()
-}
-
 func (r *Root) Description() string {
 	return r.node.Description()
 }

@@ -9,10 +9,10 @@ type Elem interface {
 }
 
 type Node struct {
-	name       string
-	decription string
-	predicates []Predicate
-	children   map[string]*Node
+	golangSignature string
+	decription      string
+	predicates      []Predicate
+	children        map[string]*Node
 }
 
 type Predicate func(ancestors []Elem, value interface{}) bool
@@ -25,10 +25,6 @@ func New(name, description string) *Node {
 
 func (n *Node) GetNode() *Node {
 	return n
-}
-
-func (n *Node) Name() string {
-	return n.name
 }
 
 func (n *Node) Description() string {
@@ -44,5 +40,5 @@ func (n *Node) JSON() string {
 }
 
 func (n *Node) GolangSignature() string {
-	return ""
+	return n.golangSignature
 }
