@@ -1,4 +1,4 @@
-package node_test
+package parser_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestNode(t *testing.T) {
+func TestParser(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Node Suite")
+	RunSpecs(t, "Parser Suite")
 }
