@@ -120,26 +120,5 @@ var _ = Describe("Parsing", func() {
 				})
 			})
 		})
-
-		Describe(".Append()", func() {
-			It("returns error", func() {
-				var sig signature.Signature
-
-				sig, _ = ParsePrimitive(sig1)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-				sig, _ = ParsePrimitive(sig2)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-				sig, _ = ParsePrimitive(sig3)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-				sig, _ = ParsePrimitive(sig4)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-				sig, _ = ParsePrimitive(sig5)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-				sig, _ = ParsePrimitive(sig6)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-				sig, _ = ParsePrimitive(sig7)
-				Expect(sig.Append(sig)).Should(HaveOccurred())
-			})
-		})
 	})
 })

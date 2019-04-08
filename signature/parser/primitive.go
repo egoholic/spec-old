@@ -6,19 +6,13 @@ import (
 	"github.com/egoholic/serror"
 
 	"github.com/egoholic/spec/signature"
+	"github.com/egoholic/spec/signature/parser/token"
 )
 
-var primitives []*tokenData
+var primitives []*token.TData
 
-type tokenData struct {
-	token    string
-	tokenLen int
-	runes    []rune
-}
-
-func extendWorldWithType(token string) {
-	runes := []rune(token)
-	td := &tokenData{token, len(runes), runes}
+func extendWorldWithType(tokenStr string) {
+	td := token.New(tokenStr)
 	primitives = append(primitives, td)
 }
 
@@ -35,31 +29,31 @@ func init() {
 	extendWorldWithType("bool")
 }
 
-func (td *tokenData) Parse(rawSig string) (sig signature.Signature, err error) {
+func parse(td *token.TData, rawSig string) (sig signature.Signature, err error) {
 	var (
 		i  int
 		r  rune
 		sr rune
 	)
 	var runes = []rune(rawSig)
-	for i, r = range td.runes {
+	for i, r = range td.Runes() {
 		sr = runes[i]
 		if r != sr {
-			err = serror.New(fmt.Sprintf("can't parse token: `%s`", td.token), fmt.Sprintf("rune `%s` != rune `%s`", r, sr))
+			err = serror.New(fmt.Sprintf("can't parse token: `%s`", td.String()), fmt.Sprintf("rune `%s` != rune `%s`", r, sr))
 			return
 		}
 	}
-	sig = &PrimitiveSignature{td}
+	sig = &PrimitiveSignature{td.String()}
 	return
 }
 
 type PrimitiveSignature struct {
-	*tokenData
+	valueType string
 }
 
 // Implements signature.Signature interface
 func (ps *PrimitiveSignature) GolangSignature() string {
-	return ps.tokenData.token
+	return ps.valueType
 }
 
 func (ps *PrimitiveSignature) Matches(sig signature.Signature) bool {
@@ -70,16 +64,12 @@ func (ps *PrimitiveSignature) Matches(sig signature.Signature) bool {
 	return ps.GolangSignature() == sig.GolangSignature()
 }
 
-func (ps *PrimitiveSignature) Append(sig signature.Signature) (err error) {
-	return serror.New(fmt.Sprintf("can't append signature `%s`", sig.GolangSignature()), fmt.Sprintf("primitive signature `%s` can't be extended!", ps.tokenData.token))
-}
-
 // \ Implements signature.Signature interface
 
 func ParsePrimitive(rawSig string) (sig signature.Signature, err error) {
-	var td *tokenData
+	var td *token.TData
 	for _, td = range primitives {
-		sig, err = td.Parse(rawSig)
+		sig, err = parse(td, rawSig)
 		if err != nil {
 			continue
 		}

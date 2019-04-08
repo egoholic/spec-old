@@ -14,7 +14,6 @@ type MapSignature struct {
 	keyType                  signature.Signature
 	valueType                signature.Signature
 	rawKeyType, rawValueType string
-	children                 []signature.Signature
 }
 
 // Implements signature.Signature interface
@@ -24,11 +23,6 @@ func (ms *MapSignature) GolangSignature() string {
 
 func (ms *MapSignature) Matches(sig signature.Signature) bool {
 	return true
-}
-
-func (ms *MapSignature) Append(sig signature.Signature) (err error) {
-	ms.children = append(ms.children, sig)
-	return
 }
 
 // \ Implements signature.Signature interface
@@ -71,7 +65,7 @@ func ParseMap(sigRdr *strings.Reader) (sig signature.Signature, err error) {
 	valueParser := New(string(rawValueType))
 	keyType, err = keyParser.Parse()
 	valueType, err = valueParser.Parse()
-	sig = &MapSignature{keyType, valueType, string(rawKeyType), string(rawValueType), nil}
+	sig = &MapSignature{keyType, valueType, string(rawKeyType), string(rawValueType)}
 
 	return
 }
