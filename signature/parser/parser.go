@@ -7,23 +7,17 @@ import (
 )
 
 type Parser struct {
-	parseable  *parseable.Parseable
-	root       signature.Signature
-	lastParsed signature.Signature
+	parseable *parseable.Parseable
+	root      signature.Signature
 }
 
 func New(p *parseable.Parseable) *Parser {
-	return &Parser{p}
+	return &Parser{p, nil}
 }
 
 // Parses whole raw signature string.
 func (p *Parser) Parse() (sig signature.Signature, err error) {
 	return
-}
-
-// Parses next node in a raw signature string.
-func (p *Parser) ParseNext() (sig signature.Signature, err error) {
-
 }
 
 func (p *Parser) Parseable() *parseable.Parseable {
