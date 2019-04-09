@@ -54,7 +54,7 @@ var _ = Describe("Parsing", func() {
 		})
 	})
 
-	Describe("PrimitiveSignature", func() {
+	Describe("*PrimitiveSignature", func() {
 		Describe(".GolangSignature()", func() {
 			It("returns string representation of Golang signature", func() {
 				var sig signature.Signature
